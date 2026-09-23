@@ -12,9 +12,23 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/petpooja_food_db';
 
-// Global Middleware
+// Global Middleware with dynamic CORS origin resolution to prevent wildcard+credentials browser rejection
 app.use(cors({
-  origin: process.env.CLIENT_URL || '*',
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps, curl, health checks)
+    if (!origin) return callback(null, true);
+    
+    // If CLIENT_URL is specified, check allowed origin, otherwise echo requesting origin
+    const clientUrl = process.env.CLIENT_URL;
+    if (clientUrl && clientUrl !== '*') {
+      const allowedOrigins = clientUrl.split(',').map(u => u.trim());
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, origin);
+      }
+    }
+    // Echo requesting origin dynamically so credentials: true is supported without wildcard '*' rejection
+    return callback(null, origin);
+  },
   credentials: true
 }));
 app.use(express.json());
