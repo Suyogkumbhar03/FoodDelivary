@@ -1,0 +1,21 @@
+{
+  "name": "masala-crush-server",
+  "version": "1.0.0",
+  "description": "Backend API Server for MASALA CRUSH: High-Octane Indian Food Delivery Platform",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "seed": "node seed.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "express-validator": "^7.3.2",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^8.8.0"
+  }
+}
